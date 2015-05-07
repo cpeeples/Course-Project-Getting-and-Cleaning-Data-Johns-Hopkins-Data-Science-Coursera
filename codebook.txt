@@ -1,4 +1,4 @@
-This codebook describes the tidydata.txt output or the run_analysis.R R-script, by referring to several of the descriptive files that came with the Samsung UHC HAR dataset and describing the processing done by run_analysis.
+This codebook describes the tidydata.txt output of the run_analysis.R R-script, by referring to several of the descriptive files that came with the Samsung UHC HAR dataset and describing the processing done by run_analysis.
 
 What is in 'tidydata.txt'?
 The column names are quite descriptive.  
