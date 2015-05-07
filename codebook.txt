@@ -1,0 +1,37 @@
+This codebook describes the tidydata.txt output or the run_analysis.R R-script, by referring to several of the descriptive files that came with the Samsung UHC HAR dataset and describing the processing done by run_analysis.
+
+What is in 'tidydata.txt'?
+The column names are quite descriptive.  
+They are "Feature", "Mean for Subject <N>" (where N is 1:30), and "Mean for all Subjects <ACTIVITY>" (where ACTIVITY is one of the activities described in ./UCI HAR dataset/README.txt)
+The first column contains the string identifier for each feature as given with the original dataset.
+Many of the 561 features given in the original data set were dropped, leaving only 66 features including exactly those features of the mean() and std() type as described in the original data set.  See the section below, "What was done to the provided to get the data in tidydata.txt?", for more information.  
+As you go across a row for a given feature, you will find a mean value for that feature calculated across all of the observations of that feature for a given subject or activity. 
+For each average value given for a feature, the particular subject or activity averaged over is identified in the corresponding header column.
+All values are unitless (normalized to fall on [-1,1]).
+
+What was done to the provided data to get the data in tidydata.txt?
+Normalized feature values were loaded from the following 2 files:
+./UCI HAR dataset/test/X_test.txt
+./UCI HAR dataset/train/X_train.txt
+
+Subject identifiers for each feature value were obtained from the following 2 files:
+./UCI HAR dataset/test/subject_test.txt
+./UCI HAR dataset/train/subject_train.txt
+
+Activity identifiers for each feature value were obtained from teh following 2 files:
+./UCI HAR dataset/test/y_test.txt
+./UCI HAR dataset/train/y_train.txt  ,
+and descriptive activity labels were linked to the integer values in these files using the file:
+./UCI HAR dataset/activity_labels.txt
+
+Feature names were obtained from the following file:
+./UCI HAR dataset/features.txt
+
+Please refer to ./UCI HAR dataset/README.txt for more description of these files.
+
+grepl was used to subset only the "mean()" and "std()" features, see ./UCI HAR dataset/features_info.txt for more detail.
+
+Selected feature, subject, and activity were joined by row position.
+
+aggregate() was used to calculate means by subject or activity.
+
