@@ -43,25 +43,28 @@ for (i in 1:6) {
 #bind various columns into a single data frame including all observations
 comdat<-cbind(stt,att,ftt) #
 
-#use aggregate() to calculate means by subject and activity: 
-#see answer by Joris Meys http://stackoverflow.com/questions/7029800/how-to-run-tapply-on-multiple-columns-of-data-frame-using-r
-mnsbysubj<-t(aggregate(comdat[,3:68],by=list(comdat$Subject),mean))
-mnsbyact<-t(aggregate(comdat[,3:68],by=list(comdat$Activity),mean))
+#creates a new column combining subject and activity into one factor for use with aggregate().
+comdat["SubjectActivity"]<-paste(comdat[,"Subject"],comdat[,"Activity"],"")
 
-#provide descriptive column labels for the tidy data
-sublabel<-1:30
-sublabel<-paste("Mean for Subject",sublabel," ")
-colnames(mnsbysubj)<-sublabel
-actlabel2<-paste("Mean for All Subjects", actlabel," ")
-colnames(mnsbyact)<-actlabel2
-tidydata<-cbind(colnames(ftt),mnsbysubj[2:67,],mnsbyact[2:67,]) #The first row of mnsbysubj/mnsbyact is redundant column names.  Subsetting rows 2:67 is probably not the most elegant solution here, but it works.
-colnames(tidydata)[1]<-"Feature"
+#use aggregate() to calculate means by subject/activity combination: 
+#see answer by Joris Meys http://stackoverflow.com/questions/7029800/how-to-run-tapply-on-multiple-columns-of-data-frame-using-r
+mnsbysubjact<-aggregate(comdat[,3:68],by=list(comdat$SubjectActivity),mean)
+colnames(mnsbysubjact)[1]<-"Subject ID Activity"
 #step 4/5 complete
 
 #Write the tidy data txt file
-write.table(tidydata,file="tidydata.txt",sep=",",row.names=F)
+write.table(mnsbysubjact,file="tidydata.txt",sep=",",row.names=F)
 #output to text file complete!
-#this tidy data set considers each feature as an observation and each subject and each activity as a distinc variable measured for that observation
-#there is one row for each feature and one column for each subject or activity.
-#simply transposing it using t(tidydata) would give a tidy data set treating each feature as a variable with subject or activity as the observation unit
 
+# This tidy data set considers each subject/activity combination (30 subject * 6 activities=180 combinations) as an observation and each 
+# "feature" (there are 66 features of the mean() std() types) as a distinct variable measured for that observation
+
+# If Subject and Activity were separate columns, then there would be an additional column in 
+# the data set that does not correspond to an observed variable (i.e. "Activity").
+# If one argued against the previous point, that in fact, the activity a given subject was performing 
+# counts as a variable measured, that would imply that one subject is the unit of observaation.  Then there 
+# would be multiple rows for one observation; not tidy! 
+# Thus, we can see that in order for this dataset to be 'tidy', we must have Subject/Activity combined as
+# the identifier for one observation unit.  
+# User of this dataset may apply "strsplit()" if they wish to have subject and activity separated for some 
+# analysis.
