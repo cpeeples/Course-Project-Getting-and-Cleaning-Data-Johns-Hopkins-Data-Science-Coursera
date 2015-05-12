@@ -1,9 +1,9 @@
 This codebook describes the tidydata.txt output or the run_analysis.R R-script, by referring to several of the descriptive files that came with the Samsung UHC HAR dataset and describing the processing done by run_analysis.
 
 What is in 'tidydata.txt'?
-There are 180 rows corresponding to each of the Subject/Activity combinations (there are 30 subjects each performing 6 different activities, 30*6=180.)
-There are 66 rows each corresponding to one of the 561 features provided with the dataset.  Many of the 561 features given in the original data set were dropped, leaving only 66 features including exactly those features of the mean() and std() type as described in the original data set.  See the section below, "What was done to the provided to get the data in tidydata.txt?", for more information.  
-As you go across a row for a given subject/activity combination, you will find a mean value for each of the 66 features for the given subject/activity combination. 
+There are 180 rows each corresponding to a Subject/Activity combination (there are 30 subjects each performing 6 different activities, 30*6=180.)
+There are 68 columns each corresponding to one observe variable, "subject", "activity", and 66 of the 561 features provided with the dataset.  Many of the 561 features given in the original data set were dropped, leaving only 66 features including exactly those features of the mean() and std() type as described in the original data set.  See the section below, "What was done to the provided to get the data in tidydata.txt?", for more information.  
+The feature values reported are means averaged over all observations matching both the Subject and Activity listed in the first two columns of the corresponding row.
 All feature values are unitless (normalized to fall on [-1,1]).
 
 What was done to the provided data to get the data in tidydata.txt?

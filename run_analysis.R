@@ -50,21 +50,16 @@ comdat["SubjectActivity"]<-paste(comdat[,"Subject"],comdat[,"Activity"],"")
 #see answer by Joris Meys http://stackoverflow.com/questions/7029800/how-to-run-tapply-on-multiple-columns-of-data-frame-using-r
 mnsbysubjact<-aggregate(comdat[,3:68],by=list(comdat$SubjectActivity),mean)
 colnames(mnsbysubjact)[1]<-"Subject ID Activity"
+
+#split the subject/activity column into 2
+newcolumns<-t(data.frame(strsplit(mnsbysubjact[,1]," ")))
+tidydata<-cbind(newcolumns,mnsbysubjact[,2:67])
+colnames(tidydata)[1:2]<-c("Subject", "Activity")
 #step 4/5 complete
 
 #Write the tidy data txt file
-write.table(mnsbysubjact,file="tidydata.txt",sep=",",row.names=F)
+write.table(tidydata,file="tidydata.txt",sep=",",row.names=F)
 #output to text file complete!
 
-# This tidy data set considers each subject/activity combination (30 subject * 6 activities=180 combinations) as an observation and each 
-# "feature" (there are 66 features of the mean() std() types) as a distinct variable measured for that observation
-
-# If Subject and Activity were separate columns, then there would be an additional column in 
-# the data set that does not correspond to an observed variable (i.e. "Activity").
-# If one argued against the previous point, that in fact, the activity a given subject was performing 
-# counts as a variable measured, that would imply that one subject is the unit of observaation.  Then there 
-# would be multiple rows for one observation; not tidy! 
-# Thus, we can see that in order for this dataset to be 'tidy', we must have Subject/Activity combined as
-# the identifier for one observation unit.  
-# User of this dataset may apply "strsplit()" if they wish to have subject and activity separated for some 
-# analysis.
+# This tidy data set considers each observation to include the variables subject, activity, and mean of each 
+# "feature" (there are 66 features of the mean() std() types) as distinct variables recorded for that observation

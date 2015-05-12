@@ -11,4 +11,5 @@ These make up 66 out of the 561 total features provided in the dataset, and are 
 ##The combined dataframe "comdat" is then operated on to produce a tidy data set that is written to a text file, "tidydata.txt".
 A new identifier column is formed by paste() - ing subject ID and activity together.
 aggregate() is used to calculate the mean of each feature by subject/activity combination.
+The identifier column is strsplit()-ed to form the final tidy data frame.
 finally, the output is written to tidydata.txt
